@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无缝滚动</title>
+    <style>
+        *{
+            border: 0;margin: 0;padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .box{
+            width: 1000px;
+            height: 470px;
+            border: 1px solid #eee;
+            margin: 100px auto;
+            position: relative;
+            overflow: auto;
+        }
+        .box ul{
+            width: 500%;
+            position: absolute;
+            top:0;
+        }
+        .box ul li{
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        复制看得见的图片，比如此处复制2张到最后，再一次到复制的2张图时，快速切换到第一张
+    </div>
+    <div class="box" id="scroll">
+        <ul>
+            <li><img src="img/lb1.jpg" height="470" width="590"/></li>
+            <li><img src="img/lb2.jpg" height="470" width="590"/></li>
+            <li><img src="img/lb3.jpg" height="470" width="590"/></li>
+            <li><img src="img/lb4.jpg" height="470" width="590"/></li>
+            <li><img src="img/lb1.jpg" height="470" width="590"/></li>
+            <li><img src="img/lb2.jpg" height="470" width="590"/></li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    var scroll = document.getElementById("scroll");
+    var ul = scroll.children[0];
+    var li = ul.children[0];
+    var num = 0;//控制左侧值
+    setInterval(autoPlay,1);
+    function autoPlay() {
+        num -- ;
+        if((-num) >= 590*4){
+            ul.style.left = "0";
+            num = 0;
+        }else{
+            ul.style.left = num + "px";
+        }
+    }
+</script>
