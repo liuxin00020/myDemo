@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符串操作</title>
+</head>
+<body>
+    <ul>
+        <li>转为字符串：txt.toString();  String(txt)</li>
+        <li>转为基数（如二进制）：txt.toString(基数);</li>
+        <li>根据索引返回字符：txt.charAt(索引号); </li>
+        <li>根据索引返回字符的Unicode编码：txt.charCodeAt(索引号)  常用于检测字符长度（中文处理）</li>
+        <li>返回字符的第一个索引值（从左往右开始查找）：txt.indexOf("字符") </li>
+        <li>返回字符的第一个索引值（从右往左开始查找）：txt.lastIndexOf("字符") </li>
+    </ul>
+
+    <script>
+        var num = 123;
+        console.log("转为字符串："+num.toString());
+        console.log("转为字符串："+ String(num));
+        console.log("转为二进制："+ num.toString(2));
+
+        var txt = "abcdef";
+        console.log("返回指定位置的字符："+ txt.charAt(1));
+        console.log("返回指定位置的字符："+ txt.charCodeAt(0));
+
+        var txt1 = "what are you are 弄啥呢";
+        console.log("what are you 弄啥呢  length:"+txt1.length);
+        console.log("what are you 弄啥呢  真实长度:"+ getStringLenght(txt1));
+        console.log("字符索引indexOf:"+ txt1.indexOf("are"));//5
+        console.log("字符索引lastIndexOf:"+ txt1.lastIndexOf("are"));//13 索引值不变
+
+        //获取字符长度
+        function getStringLenght(str) {
+            var len = 0;
+            var c = 0;
+            for(var i=0 ;i<str.length;i++){
+                c = str.charCodeAt(i);
+                if( c >= 0 && c <= 127 ){ // 键盘字符除外，为2个长度
+                   len++;
+                }else{
+                    len = len+2;
+                }
+            }
+            return len;
+        }
+    </script>
+</body>
+</html>

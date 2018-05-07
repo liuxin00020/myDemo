@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日历</title>
+    <style>
+        .box{
+            width: 150px;
+            height: 150px;
+            background-color: #3ab;
+            margin: 100px auto;
+        }
+        .box p{
+            text-align: center;
+            color: #fff;
+            line-height: 50px;
+            font-size: 12px;
+        }
+        .box span{
+            font-size: 50px;
+            color: #333;
+            background: yellowgreen;
+            display: block;
+            width: 80px;
+            height:80px;
+            line-height: 80px;
+            text-align: center;
+            margin: 0 auto;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            //获取元素
+            var calendar = document.getElementById("calendar");
+            var childs = calendar.children;
+            var date = new Date();
+            var week = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六",];
+            childs[0].innerHTML = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+week[date.getDay()];
+            childs[1].innerHTML = date.getDate();//今天日
+        }
+    </script>
+</head>
+<body>
+<div class="box" id="calendar">
+    <p></p>
+    <span></span>
+</div>
+</body>
+</html>

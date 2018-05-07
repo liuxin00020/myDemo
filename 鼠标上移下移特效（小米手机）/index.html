@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小米特效</title>
+    <style>
+        .xiaomi{
+            width: 512px;
+            height:400px;
+            overflow: hidden;
+            margin: 100px auto;
+            border: 1px solid #eee;
+            position: relative;
+        }
+        .xiaomi span{
+            width: 100%;
+            height: 200px;
+            display: block;
+            position: absolute;
+            left: 0;
+        }
+        .up{
+            top: 0;
+        }
+        .down{
+            bottom: 0;
+        }
+        #pic{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+<body>
+    <div class="xiaomi" id="xiaomi">
+        <img src="mi.png" id="pic"/>
+        <span class="up" id="picUp"></span>
+        <span class="down"  id="picDown"></span>
+    </div>
+</body>
+</html>
+<script>
+    function $id(id) {return document.getElementById(id);}
+    var num = 0;
+    var timer = null;//定时器名称
+
+    //鼠标放上面，往上移
+    $id("picUp").onmouseover = function () {
+        clearInterval(timer);//先清除下移定时器
+        timer = setInterval(function () {// 定时
+            num -= 3 ;
+            $id("pic").style.top = num + "px";
+            if((-num) >= ($id("pic").height-400)){ // 移动完毕，则重新开始
+                num = 0;
+            }
+        },100)
+    }
+
+    //鼠标放下面，往下移
+    $id("picDown").onmouseover = function () {
+        clearInterval(timer);//先清除上移定时器
+        timer = setInterval(function () {
+            num += 3 ;
+            console.log(num);
+            $id("pic").style.top = num + "px";
+            if( num >= 0){
+                num = - ($id("pic").height-400);
+            }
+        },100)
+    }
+
+    //鼠标移开，停止移动
+    $id("xiaomi").onmouseleave = function () {
+        clearInterval(timer);
+    }
+</script>

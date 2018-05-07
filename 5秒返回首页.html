@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5秒返回首页</title>
+</head>
+<body>
+    <div id="demo"></div>
+</body>
+</html>
+<script>
+    var demo = document.getElementById("demo");
+    var count = 5;
+    setTimeout(goIndex,1000);//只执行一次方法，在1s后，与setInterval不同
+    function goIndex() {
+        count--;
+        demo.innerHTML = count+"后跳转首页";
+        if(count<=0){
+            window.location.href="array.html";
+        }else{
+            setTimeout(goIndex,1000);//5秒内，继续执行定时任务
+        }
+    }
+</script>

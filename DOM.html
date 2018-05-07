@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <strong>js三部分组成：</strong> <br>
+        ECMAScript 欧洲计算机制造协会，描述js的语法和基本对象 <br>
+        DOM 文档对象模型，处理网页的方法和接口<br>
+        BOM 浏览器对象模型，与浏览器交互的方法和接口<br>
+        <h3>访问节点</h3>
+        getElementById()   通过Id访问<br>
+        getElementByTagName()  通过标签访问<br>
+        getElementsByClassName()  通过class访问<br>
+
+        <h3>节点获取</h3>
+        <strong>父节点：</strong>parentNode&nbsp;&nbsp;this.parentNode.style.display="none";<br/>
+        <strong>兄弟节点（先写正常，再写IE678）：</strong><br/>
+            ——>下一个：nextSibling(IE678)&nbsp;&nbsp;nextElementSibling(其他浏览器)<br/>
+            ——>上一个：previousSibling(IE678)&nbsp;&nbsp;previousElementSibling(其他浏览器)<br/>
+            ——>兼容模式使用：var mynextsibLing = one.nextElementSibling || one.nextSibling;<br/>
+        <strong>子节点（先写正常，再写IE678，很少用）：</strong><br/>
+                    ——>firstChild(IE678)&nbsp;&nbsp;firstElementChild(其他浏览器)<br/>
+                    ——>lastChild(IE678)&nbsp;&nbsp;lastElementChild(其他浏览器)<br/>
+        <strong>孩子节点（先写正常，再写IE678）：</strong><br/>
+                    ——>选出全部的孩子：childNodes<br/>
+                            ------------返回所有子元素集合，包括html节点，所有属性，文本节点<br/>
+                            ------------火狐、谷歌等高版本浏览器会把换行也看成一个节点<br/>
+                            ------------nodeType==1时才是元素标签节点<br/>
+                    ——>选出所有的标签节点：children<br/>
+                            ------------IE678包含注释节点<br/>
+
+        <h3>节点操作</h3>
+        <strong>创建节点：</strong>createElement(节点名称) &nbsp;&nbsp;var ul = document.createElement("ul");<br/>
+        <strong>插入节点：</strong><br/>
+                ——>标签后插入节点：appendChild(创建的节点) &nbsp;&nbsp;demo.appendChild(ul);<br/>
+                ——>指定标签前面插入节点：insertBefore(插入的节点，参照节点) &nbsp;&nbsp;ul.insertBefore(li1,li2)<br/>
+                    ---------------当参照节点为null时，默认在孩子节点的最后一个插入新节点<br/>
+        <strong>删除节点：</strong>removeChild(节点名称) &nbsp;&nbsp;demo.removeChild(removeTest);<br/>
+        <strong>克隆节点：</strong>cloneNode(true/false) &nbsp;&nbsp;demo.cloneNode(false);<br/>
+                ——>true：深层复制，复制当前节点及其子节点，克隆之后需要插入<br/>
+                ——>false：浅层复制，只复制当前节点，克隆之后需要插入<br/>
+        <h3>节点属性操作</h3>
+        <strong>获取节点属性：</strong>getAttribute(属性名称) &nbsp;&nbsp;demo.getAttribute("id")<br/>
+        <strong>设置节点属性：</strong>setAttribute(属性名称,属性值) &nbsp;&nbsp;demo.setAttribute("title","12345")<br/>
+        <strong>删除节点属性：</strong>removeAttribute(属性名称) &nbsp;&nbsp;demo.removeAttribute("title");<br/>
+
+
+
+        <ul id="demo">
+            1111111
+            <li>123123123</li>
+            <li>123123123</li>
+            <li id="one">
+                <span>111</span>
+                <span>222</span>
+                <span>333</span>
+            </li>
+            <li>123123123</li>
+            <!--我是注释-->
+        </ul>
+</body>
+</html>
+<script>
+    var one = document.getElementById("one");
+    one.parentNode.style.background="#eee";
+    //兼容模式，先写正常浏览器，再写IE678
+    var mynextsibLing = one.nextElementSibling || one.nextSibling;
+    mynextsibLing.style.background="red";
+
+    //兄弟节点
+    var myprevioussibling = one.previousElementSibling || one.previousSibling;
+    myprevioussibling.style.background="pink";
+
+    //第一个孩子节点（很少用，要去掉空格）
+    var myfirstchild = one.firstElementChild || one.firstChild;
+    myfirstchild.style.background="blue";
+
+    //全部的孩子
+    var ul = document.getElementById("demo");
+    var childs = ul.childNodes;
+    console.log("childNodes（包含文字、换行符）:"+childs.length);
+    for(var i in childs){
+        if(childs[i].nodeType == 1){
+            childs[i].style.background = "aqua";
+        }
+    }
+
+    //元素标签节点
+    var childrens = ul.children;
+    childrens[0].style.background = "#eeff44";
+    console.log("children（包含注释）:"+childrens.length);
+
+
+</script>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组常用方法</title>
+</head>
+<body>
+    <h3>常用方法</h3>
+    <strong>
+        push()——向数组末尾添加一个或多个元素，并返回新的长度    arr.push(ele1,ele2...)<br/>
+        unshift()——向数组的开头添加一个或多个元素，并返回新的长度    arr.unshift(ele1,ele2...)<br/>
+        pop()——删除末尾最后一个元素，并返回删除的元素  arr.pop()<br/>
+        shift()——删除开头第一个元素，并返回删除的元素   arr.shift()
+    </strong>
+    <script>
+        var arr = [1,3,5,6];
+        document.write("<br/>原始数组："+arr.toString()+"\r\n");
+        var value1 = arr.push(7,9);
+        document.write("<br/>push后的数组："+arr.toString() + " &nbsp;&nbsp;返回值"+value1);
+        var value2 = arr.unshift(-1,0);
+        document.write("<br/>unshift后的数组："+arr.toString()+" &nbsp;&nbsp;返回值"+value2);
+        var value3 = arr.pop();
+        document.write("<br/>pop后的数组："+arr.toString()+" &nbsp;&nbsp;返回值"+value3);
+        var value4 = arr.shift();
+        document.write("<br/>shift后的数组："+arr.toString()+" &nbsp;&nbsp;返回值"+value4);
+    </script>
+
+    <br/>
+    <br/>
+    <strong>
+        contact()：连接两个或多个数组，不会改变原来的数组值，返回连接后的新数组 arr.concat(arr1,arr2...)<br>
+        jion()：通过指定连接符将数组转换为字符串，不会改变原来的数组值，默认连接符为逗号，并返回字符串 arr.jion("连接符")<br>
+        split()：字符串转为数组，不会改变原来的数组值，返回值为数组 string.split("连接符");
+    </strong>
+    <script>
+        var arr1 = [1,2,3];
+        var arr2 = [4,5,6];
+        var arr3 = ["7","8","9"];
+        document.write("<br/>contact arr1 ,arr2 ,arr3 : "+ arr1.concat(arr2,arr3));
+        document.write("<br/>join arr1 : "+ arr1.join("-"));
+        var string = "aa-bb-cc";
+        document.write("<br/>string split : "+ string.split("-"));
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>定时器+倒计时</title>
+    <script>
+        window.onload = function () {
+            var demo = document.getElementById("demo");
+            setInterval(fun,1000);
+            var num =0;
+            function fun() {
+                num++;
+                if(num>60){
+                    num = 0;
+                }
+                demo.innerHTML = num;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="demo"></div>
+    <div id="time"></div>
+</body>
+</html>
+<script>
+    var time = document.getElementById("time");
+    var endTime = new Date("2018/12/12 17:30:00");//将来时间
+    setInterval(colck,1000);//开启定时
+
+    function colck() {
+        var nowTime = new Date();
+        var ms = parseInt((endTime.getTime()-nowTime.getTime())/1000);//获得总秒数
+        var day = parseInt(ms / 3600 / 24);//获得天数
+        var hour = parseInt(ms / 3600 % 24);//获得小时  1分=60秒 1小时=3600秒 1天=24小时
+        var minite = parseInt(ms / 60 % 60);//获得分数
+        var second = parseInt(ms % 60);//获得秒数
+
+        //格式化，若单位数，则在前面加0
+        day < 10 ? d= "0"+ d : d;
+        hour < 10 ? hour= "0"+ hour : hour;
+        minite < 10 ? minite= "0"+ minite : minite;
+        second < 10 ? second= "0"+ second : second;
+
+        //展示倒计时时间
+        time.innerHTML = "2018/12/12 17:30:00倒计时："+ day +"天 "+ hour +"时" + minite +"分" + second +"秒"
+    }
+</script>

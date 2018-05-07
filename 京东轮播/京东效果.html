@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>京东轮播效果</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        ul,ol{list-style: none;}
+        .box{
+            width: 550px;
+            height:450px;
+            margin: 100px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .circle{
+            position: absolute;;
+            left: 50%;
+            margin-left: -50px;
+            bottom: 10px;
+        }
+        .circle span{
+            width: 18px;
+            height:18px;
+            line-height: 18px;
+            border-radius: 50%;
+            background-color: azure;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            margin-right:5px;
+        }
+        .circle span.current{
+            background-color: brown;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="scroll">
+        <div class="slider">
+            <ul id="scrollul">
+                <li><img src="img/lb1.jpg" alt=""></li>
+                <li><img src="img/lb2.jpg" alt=""></li>
+                <li><img src="img/lb3.jpg" alt=""></li>
+                <li><img src="img/lb4.jpg" alt=""></li>
+                <li><img src="img/lb5.jpg" alt=""></li>
+                <li><img src="img/lb6.jpg" alt=""></li>
+                <li><img src="img/lb7.jpg" alt=""></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var scroll = document.getElementById("scroll");
+
+    //创建原点div盒子
+    var circle = document.createElement("div");
+    circle.setAttribute("class","circle");
+    scroll.appendChild(circle);
+
+    //原点div盒子 动态生成原点span
+    var lis = document.getElementById("scrollul").children;//所有的li
+    for(var i=0 ;i<lis.length;i++){//遍历lis生成原点
+        var span = document.createElement("span");
+        span.innerHTML = i+1;
+        circle.appendChild(span);
+    }
+    var circleChild = circle.children;
+    circleChild[0].setAttribute("class","current");//第一个原点修改样式
+</script>

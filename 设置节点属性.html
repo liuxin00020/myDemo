@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设置节点属性</title>
+</head>
+<body>
+    <div id="demo" class="one"></div>
+</body>
+</html>
+<script>
+    var demo = document.getElementById("demo");
+    document.write("<br/>获取Id:"+demo.getAttribute("id"));
+    document.write("<br/>获取class:"+demo.getAttribute("class"));
+    demo.setAttribute("title","12345");
+    demo.removeAttribute("title");
+</script>

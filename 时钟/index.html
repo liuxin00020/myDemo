@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时钟</title>
+    <style>
+        .clock{
+            width: 600px;
+            height: 600px;
+            background: url("img/clock.jpg");
+            margin: 100px auto;
+            position: relative;
+        }
+        .clock div{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .hour{
+            background: url("img/hour.png") no-repeat center center;
+        }
+        .minite{
+            background: url("img/minute.png") no-repeat center center;
+        }
+        .second{
+            background: url("img/second.png") no-repeat center center;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <div class="hour" id="hour"></div>
+        <div class="minite" id="minite"></div>
+        <div class="second" id="second"></div>
+    </div>
+</body>
+</html>
+<script>
+    var hour = document.getElementById("hour");
+    var minite = document.getElementById("minite");
+    var second = document.getElementById("second");
+
+    // 开始定时
+    var ms = 0 , s = 0 , m = 0 , h = 0 ;
+    setInterval(function(){
+        var date = new Date();
+        ms = date.getMilliseconds();//获得当前的毫秒数
+        s = date.getSeconds() + (ms / 1000) ; // 获得当前秒数
+        m = date.getMinutes() + (s / 60) ; //获得当前分钟
+        h = (date.getHours() % 12) + (m / 60) ; //获得当前小时
+
+        //旋转角度  1秒6° 1分6° 1时30°
+        second.style.webkitTransform = "rotate(" + s*6 + "deg)";
+        minite.style.webkitTransform = "rotate(" + m*6 + "deg)";
+        hour.style.webkitTransform = "rotate(" + h*30 + "deg)";
+
+        second.style.transform = "rotate(" + s*6 + "deg)";
+        minite.style.transform = "rotate(" + m*6 + "deg)";
+        hour.style.transform = "rotate(" + h*30 + "deg)";
+
+    },100);
+
+</script>

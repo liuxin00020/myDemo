@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>节点操作</title>
+</head>
+<body>
+    <div id="demo">
+        <div id="removeTest"></div>
+    </div>
+</body>
+</html>
+<script>
+    var demo = document.getElementById("demo");
+
+    //创建节点
+    var ul = document.createElement("ul");
+    var li = document.createElement("li");
+
+    //demo中插入ul节点
+    demo.appendChild(ul);
+
+    //ul中插入第一个节点
+    li.innerHTML="我是appendChild()插入的节点";
+    ul.appendChild(li);
+
+    //li前面插入一个节点
+    var liBefore = document.createElement("li");
+    liBefore.innerHTML = "我是insertBefore()插入的节点";
+    ul.insertBefore(liBefore,li);
+
+    //移除节点
+    var removeTest = document.getElementById("removeTest");
+    demo.removeChild(removeTest);
+
+    //克隆节点(只克隆自己)
+    var body = demo.parentNode;
+    var cloneTest = demo.cloneNode();
+    cloneTest.innerHTML = "我是demo克隆出来的节点";
+    body.appendChild(cloneTest);
+
+    //克隆节点(包含子节点)
+    var cloneTest1 = demo.cloneNode(true);
+    body.appendChild(cloneTest1);
+</script>

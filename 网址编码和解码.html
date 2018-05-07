@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网址编码和解码</title>
+</head>
+<body>
+<ul>
+    <li>encodeURIComponent()函数可把字符串作为URI组件进行编码</li>
+    <li>decodeURIComponent()函数可把字符串作为URI组件进行解码</li>
+</ul>
+</body>
+</html>
+<script>
+    var url = "http://www.baidu.com";
+    console.log(encodeURIComponent(url));
+    var afterURI = encodeURIComponent(url);
+    console.log(decodeURIComponent(afterURI));
+</script>

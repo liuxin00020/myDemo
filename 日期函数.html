@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日期函数</title>
+</head>
+<body>
+    <script>
+        var date = new Date();
+
+        //从1970年1月1日至今的毫秒数
+        console.log(date.getTime());//提倡使用
+        console.log(date.valueOf());
+        //直接使用
+        console.log(Date.now());
+        console.log(+new Date());
+
+        console.log(date.getDate());//返回当天，1-31
+        console.log(date.getDay());//返回星期，0-6
+        console.log(date.getMonth());//返回月份 0-11
+        console.log(date.getFullYear());//返回当年年份
+        console.log(date.getHours());//返回当前小时 0-23
+        console.log(date.getMinutes());//返回当前分钟 0-59
+        console.log(date.getSeconds());//返回当前秒数 0-59
+
+    </script>
+</body>
+</html>
