@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盒子匀速运动</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: pink;
+            position: absolute;
+            left: 100px;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">开始</button>
+    <div class="box" id="box">
+
+    </div>
+</body>
+</html>
+<script>
+    var btn = document.getElementById("btn");
+    var box = document.getElementById("box");
+    var num = 0;
+    var timer = null ;//存储定时器
+    btn.onclick = function () {
+        timer = setInterval(function () {
+            num ++ ;
+            if(num >= 500){
+                clearInterval(timer);
+            }else{
+                box.style.left = num + "px";
+            }
+        },10)
+
+    }
+</script>

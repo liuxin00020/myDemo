@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>缓动动画</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: pink;
+            position: absolute;
+            left: 100px;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+    <p>公式（减速）：leader = leader + (target - leader) /10</p>
+    <button id="btn">开始</button>
+    <div class="box" id="box"></div>
+</body>
+</html>
+<script>
+    var btn = document.getElementById("btn");
+    var box = document.getElementById("box");
+    var leader = 0;
+    var target =500;
+    btn.onclick = function () {
+        setInterval(function () {
+            leader = leader + (target - leader)/20;
+            box.style.left = leader + "px";
+        },50)
+    }
+</script>

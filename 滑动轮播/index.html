@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>滑动轮播</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li, ol {
+            list-style: none;
+        }
+
+        .slider {
+            width: 590px;
+            height: 470px;
+            border: 1px solid #eee;
+            margin: 100px auto;
+            padding: 5px;
+            position: relative;
+        }
+
+        .inner {
+            width: 100%;
+            height: 100%;
+            background: pink;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inner img {
+            display: block;
+        }
+
+        .inner ul {
+            width: 800%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .inner li {
+            float: left;
+        }
+
+        .slider ol {
+            position: absolute;
+            left: 50%;
+            margin-left: -80px;
+            bottom: 10px;
+        }
+
+        .slider ol li {
+            float: left;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            margin-right: 10px;
+            text-align: center;
+            line-height: 18px;
+        }
+
+        .slider ol li.current {
+            background: coral;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="slider" id="slider">
+    <div class="inner">
+        <ul>
+            <li><a href="#"><img src="img/l1.jpg" alt=""></a></li>
+            <li><a href="#"><img src="img/l2.jpg" alt=""></a></li>
+            <li><a href="#"><img src="img/l3.jpg" alt=""></a></li>
+            <li><a href="#"><img src="img/l4.jpg" alt=""></a></li>
+            <li><a href="#"><img src="img/l5.jpg" alt=""></a></li>
+            <li><a href="#"><img src="img/l6.jpg" alt=""></a></li>
+        </ul>
+    </div>
+    <ol>
+        <li class="current">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ol>
+</div>
+</body>
+</html>
+<script>
+    var slider = document.getElementById("slider");
+    var ul = slider.children[0].children[0];
+    var ol = slider.children[1];
+    var ollis = ol.children;
+    for (var i = 0; i < ollis.length; i++) {//原点事件，鼠标上移，原点变动
+        ollis[i].index = i;
+        ollis[i].onmouseover = function () {
+            for (var j = 0; j < ollis.length; j++) {
+                ollis[j].className = "";
+            }
+            this.className = "current";
+            target = -this.index * 590;//缓动动画的目标位置 当前盒子索引*盒子宽度
+
+        }
+    }
+
+    /*定时任务，缓动轮播*/
+    var leader = 0 ,target = 0 ;
+    setInterval(function () {
+        leader = leader + (target-leader)/10;//缓动动画公式
+        ul.style.left = leader + "px";
+    },30);
+
+
+</script>

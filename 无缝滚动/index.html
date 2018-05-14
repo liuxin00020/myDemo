@@ -16,7 +16,7 @@
             border: 1px solid #eee;
             margin: 100px auto;
             position: relative;
-            overflow: auto;
+            overflow: hidden;
         }
         .box ul{
             width: 500%;
@@ -47,16 +47,20 @@
 <script>
     var scroll = document.getElementById("scroll");
     var ul = scroll.children[0];
-    var li = ul.children[0];
     var num = 0;//控制左侧值
-    setInterval(autoPlay,1);
-    function autoPlay() {
+    var playTimer = null;
+    playTimer = setInterval(autoPlay,5);//定时开始
+    function autoPlay() { // 播放方法
         num -- ;
-        if((-num) >= 590*4){
-            ul.style.left = "0";
-            num = 0;
-        }else{
-            ul.style.left = num + "px";
-        }
+        ((-num) >= 590*4) ? (num = 0) : num ;
+        ul.style.left = num + "px";//更改left值
+    }
+
+    scroll.onmouseover = function () {//鼠标移动，暂停滚动
+        clearInterval(playTimer);
+    }
+
+    scroll.onmouseout = function () { //鼠标离开，继续滚动
+        playTimer = setInterval(autoPlay,5)
     }
 </script>
