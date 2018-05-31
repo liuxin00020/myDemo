@@ -66,6 +66,25 @@
             background: coral;
             cursor: pointer;
         }
+
+        .slider span {
+            position: absolute;
+            top: 50%;
+            color: #fff;
+            font-size: 20px;
+            padding: 10px 8px;
+            background: #878686;
+            background: rgb(135, 134, 134, .4);
+            cursor: pointer;
+        }
+
+        .slider #btnLeft {
+            left: 5px;
+        }
+
+        .slider #btnRight {
+            right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -88,6 +107,8 @@
         <li>5</li>
         <li>6</li>
     </ol>
+    <span id="btnLeft"><</span>
+    <span id="btnRight">></span>
 </div>
 </body>
 </html>
@@ -96,6 +117,9 @@
     var ul = slider.children[0].children[0];
     var ol = slider.children[1];
     var ollis = ol.children;
+    var btnLeft = document.getElementById("btnLeft");
+    var btnRight = document.getElementById("btnRight");
+    var leader = 0, target = 0; //动画位置
     for (var i = 0; i < ollis.length; i++) {//原点事件，鼠标上移，原点变动
         ollis[i].index = i;
         ollis[i].onmouseover = function () {
@@ -104,16 +128,33 @@
             }
             this.className = "current";
             target = -this.index * 590;//缓动动画的目标位置 当前盒子索引*盒子宽度
-
         }
     }
 
-    /*定时任务，缓动轮播*/
-    var leader = 0 ,target = 0 ;
+    /*定时任务，缓动轮播 30毫秒到target位置*/
     setInterval(function () {
-        leader = leader + (target-leader)/10;//缓动动画公式
+        if (target >= 0) { // 图片在第一张，目标位置固定为0 右标签隐藏
+            target = 0;
+            btnRight.style.display = "none";
+        }else if (target <= -(ul.children.length - 1) * 590) {// 图片在第一张，目标位置固定为图片长度，左标签隐藏
+            target = -(ul.children.length - 1) * 590;
+            btnLeft.style.display = "none";
+        }else {
+            btnRight.style.display = "block";
+            btnLeft.style.display = "block";
+        }
+        leader = leader + (target - leader) / 10;//缓动动画公式
         ul.style.left = leader + "px";
-    },30);
+    }, 30);
 
+    /*左边按钮事件*/
+    btnLeft.onclick = function () {
+        target = target + (-590); //缓动动画的目标位置
+    }
+
+    /*右边按钮事件*/
+    btnRight.onclick = function () {
+        target = target + 590; //缓动动画的目标位置
+    }
 
 </script>
