@@ -78,6 +78,10 @@
             cursor: pointer;
         }
 
+        .slider span:hover {
+            background: rgb(135, 134, 134, .6);
+        }
+
         .slider #btnLeft {
             left: 5px;
         }
@@ -136,10 +140,10 @@
         if (target >= 0) { // 图片在第一张，目标位置固定为0 右标签隐藏
             target = 0;
             btnRight.style.display = "none";
-        }else if (target <= -(ul.children.length - 1) * 590) {// 图片在第一张，目标位置固定为图片长度，左标签隐藏
+        } else if (target <= -(ul.children.length - 1) * 590) {// 图片在第一张，目标位置固定为图片长度，左标签隐藏
             target = -(ul.children.length - 1) * 590;
             btnLeft.style.display = "none";
-        }else {
+        } else {
             btnRight.style.display = "block";
             btnLeft.style.display = "block";
         }
