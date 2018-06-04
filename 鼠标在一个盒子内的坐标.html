@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标在盒子内的坐标</title>
+    <style>
+        #demo {
+            width: 300px;
+            height: 300px;
+            background-color: palegreen;
+            margin: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id="demo"></div>
+</body>
+</html>
+<script>
+    var demo = document.getElementById("demo");
+    demo.onmousemove = function (ev) {
+        var event = ev || window.event;
+        var x = event.clientX - this.offsetLeft;
+        var y = event.clientY - this.offsetTop;
+        this.innerHTML = "当前鼠标在盒内坐标：(" + x + "," + y + ")";
+    }
+</script>

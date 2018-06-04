@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>offset家族</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        #demo {
+            width: 300px;
+            height: 300px;
+            border: 5px solid #ccc;
+            padding: 10px;
+            margin: 100px;
+            position: relative;
+        }
+        #child{
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+        #son{
+            width: 20px;
+            height: 20px;
+            background-color: palegreen;
+        }
+    </style>
+</head>
+<body>
+
+<img src="img/offset.jpg" height="492" width="573"/>
+<ul>
+    <li>offsetWidth offsetHeight ：自己的宽度和高度 = width+padding+border</li>
+    <li>offsetLeft offsetTop ：距离上一个盒子 带有定位的位置 <br>
+        -->如果父级没有定位，则到上级有定位的位置<br>
+        -->如果父级有定位，则到父级的位置<br>
+        --> = 自己的left + 父级padding
+    </li>
+    <li>offsetParent 返回上级有定位的标签<br>
+        -->parentNode  返回上级标签
+    </li>
+</ul>
+
+<div id="demo">
+    width: 300px;<br/>
+    height: 300px;<br/>
+    border: 5px solid #ccc;<br/>
+    padding: 10px;<br/>
+    margin: 100px;
+    <div id="child">
+        <div id="son"></div>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+    var demo = document.getElementById("demo");
+    var child = document.getElementById("child");
+    var son = document.getElementById("son");
+    console.log("offsetWidth:" + demo.offsetWidth);
+    console.log("offsetHeight:" + demo.offsetHeight);
+    console.log("offsetLeft:" + child.offsetLeft);
+    console.log("offsetHeight:" + child.offsetTop);
+    console.log("offsetParent:" + son.offsetParent.id);
+    console.log("parentNode:" + son.parentNode.id);
+</script>

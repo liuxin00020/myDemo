@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>放大镜效果</title>
+    <style>
+        .box {
+            width: 350px;
+            height: 350px;
+            margin: 100px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+
+        .big {
+            width: 450px;
+            height: 450px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+        .big img{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .mask {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 0, .4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="magnifier">
+    <div class="small">
+        <img src="img/small.jpg"/>
+        <div class="mask"></div>
+    </div>
+
+    <div class="big">
+        <img src="img/big.jpg"/>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var magnifier = document.getElementById("magnifier");
+    var small = magnifier.children[0];
+    var big = magnifier.children[1];
+    var mask = small.children[1];
+    var bigImg = big.children[0];
+
+    // 鼠标放到small，显示拖动块和大盒子
+    small.onmouseover = function () {
+        mask.style.display = "block"; // 显示拖动块
+        big.style.display = "block"; // 显示大图片
+    }
+
+    // 鼠标移开small， 隐藏拖动块和大图片
+    small.onmouseout = function () {
+        mask.style.display = "none"; // 隐藏拖动块
+        big.style.display = "none"; // 隐藏大图片
+    }
+
+    //鼠标在small内移动  拖动块固定在鼠标位置
+    small.onmousemove = function (ev) {
+        var event = ev || window.event;
+        var x = event.clientX - this.offsetLeft - this.parentElement.offsetWidth / 2;
+        var y = event.clientY - this.offsetTop - this.parentElement.offsetHeight / 2;
+        if (x < 0) { // 控制左侧拖动块不溢出
+            x = 0;
+        } else if (x > this.offsetWidth - mask.offsetWidth) { // 控制右侧拖动块不溢出
+            x = this.offsetWidth - mask.offsetWidth;
+        }
+        if (y < 0) { // 控制上面拖动块不溢出
+            y = 0;
+        } else if (y > this.offsetHeight - mask.offsetHeight) { // 控制下面拖动块不溢出
+            y = this.offsetHeight - mask.offsetHeight;
+        }
+        mask.style.left = x + "px";
+        mask.style.top = y + "px";
+
+        //大图片的位置
+        bigImg.style.left = -x * big.offsetWidth/small.offsetWidth + "px";
+        bigImg.style.top = -y * big.offsetHeight/small.offsetHeight + "px";
+    }
+
+</script>

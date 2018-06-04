@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>筋斗云导航效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        body {
+            background-color: #000;
+        }
+
+        .nav {
+            width: 800px;
+            height: 42px;
+            background: #fff url("./img/rss.png") no-repeat right 10px center;
+            margin: 100px auto;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .cloud {
+            width: 83px;
+            height: 42px;
+            background: url("img/cloud.gif");
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .nav ul {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .nav li {
+            float: left;
+            width: 83px;
+            height: 42px;
+            text-align: center;
+            line-height: 42px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="nav" id="nav">
+    <span class="cloud" id="cloud"></span>
+    <ul>
+        <li>首页</li>
+        <li>新闻动态</li>
+        <li>首页新闻</li>
+        <li>首页新闻</li>
+        <li>首页新闻</li>
+        <li>首页新闻</li>
+        <li>首页新闻</li>
+        <li>首页新闻</li>
+        <li>首页新闻</li>
+    </ul>
+</div>
+</body>
+</html>
+<script>
+    var cloud = document.getElementById("cloud"); // 云彩
+    var nav = document.getElementById("nav"); // 导航盒子
+    var lis = nav.children[1].children;
+    var leader = 0, target = 0,current =0 ;
+    for(var i=0;i<lis.length;i++){
+        lis[i].onmouseover = function () { // 鼠标放上去，云彩移动到鼠标位置
+            target = this.offsetLeft;
+        }
+        lis[i].onmouseout = function () { // 鼠标移开，云彩回到当前的位置
+            target = current;
+        }
+        lis[i].onclick = function () { // 鼠标点击，存储当前的位置
+            current = this.offsetLeft;
+        }
+    }
+
+    //缓动公式
+    setInterval(function () {
+        leader = leader + (target - leader) / 10;
+        cloud.style.left = leader + "px";
+    }, 10);
+</script>
