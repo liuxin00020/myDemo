@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖动弹出框</title>
+    <style>
+        *{margin: 0;padding: 0;border: 0}
+        html,body{height: 100%}
+        .popover {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+            position: absolute;
+            top: 30%;
+            left: 40%;
+        }
+
+        .popover span {
+            display: block;
+            width: 100%;
+            color: darkslateblue;
+            background-color: lightblue;
+            border: 1px solid cornflowerblue;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+<div class="popover" id="popover">
+    <span>弹出框拖动</span>
+</div>
+</body>
+</html>
+<script>
+    var popover = document.getElementById("popover");
+    var span = popover.children[0];
+
+    startDrop(span,popover); // 鼠标放到span  移动的是popover
+
+    function startDrop(current,move) {
+        //按下鼠标
+        current.onmousedown = function (ev) {
+            var event = ev || window.event;
+            var leftVal = event.clientX - move.offsetLeft; // 弹出框的父元素左边距
+            var topVal = event.clientY - move.offsetTop; // 弹出框的父元素上边距
+
+            // 移动鼠标
+            document.onmousemove = function (ev2) {
+                var event2 = ev2 || window.event;
+                var x = event2.clientX - leftVal; // 弹出框相对父级的左边距
+                var y = event2.clientY - topVal; // 弹出框相对父级的上边距
+                if (x < 0) { // 控制左边框不溢出
+                    x = 0;
+                } else if (x > move.offsetParent.offsetWidth - move.offsetWidth) { // 控制右边不溢出
+                    x = move.offsetParent.offsetWidth - move.offsetWidth;
+                }
+                if (y < 0) { // 控制上面不溢出
+                    y = 0;
+                } else if (y > move.offsetParent.offsetHeight - move.offsetHeight) { // 控制下面不溢出
+                    y = move.offsetParent.offsetHeight - move.offsetHeight;
+                }
+
+                move.style.left = x + "px";
+                move.style.top = y + "px";
+
+                //防止选择拖动  清除拖动时候选择的文字
+                window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+            }
+
+            // 放开鼠标
+            document.onmouseup = function () {
+                document.onmousemove = null;
+            }
+        }
+    }
+</script>
