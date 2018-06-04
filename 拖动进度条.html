@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖动进度条</title>
+    <style>
+        .scroll {
+            width: 300px;
+            height: 5px;
+            margin: 100px;
+            background-color: #ccc;
+            position: relative;
+        }
+
+        .bar {
+            width: 10px;
+            height: 20px;
+            background-color: darkblue;
+            position: absolute;
+            top: -7px;
+            cursor: pointer;
+        }
+
+        .mask {
+            width: 0;
+            height: 100%;
+            background-color: darkblue;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="scroll" id="scroll">
+    <div class="bar"></div>
+    <div class="mask"></div>
+</div>
+</body>
+</html>
+<script>
+    var scroll = document.getElementById("scroll");
+    var bar = scroll.children[0];
+    var mask = scroll.children[1];
+
+    // 按下bar 按下鼠标
+    bar.onmousedown = function (ev) {
+        var ev = ev || window.event;
+        var leftVal = ev.clientX - this.offsetLeft; // 获取父元素到body的距离
+
+        // 移动鼠标
+        document.onmousemove = function (event) {
+            var event = event || window.event;
+            var x = event.clientX - leftVal; // 获取bar到父元素的距离
+            /* *
+            多个盒子定位时，此方法不准确  offsetLeft获取相对于上一个定位的左边距离
+            * *
+            var x = event.clientX - scroll.offsetLeft;
+            * */
+            if (x < 0) { // bar在最左边，不能再拖动
+                x = 0
+            }
+            else if (x > scroll.offsetWidth - bar.offsetWidth) { // bar在最右边，不能再拖动
+                x = scroll.offsetWidth - bar.offsetWidth;
+            }
+            bar.style.left = x + "px";
+            mask.style.width = x + "px";
+            //防止选择拖动  清除拖动时候选择的文字
+            window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+        }
+
+        // 放开鼠标
+        document.onmouseup = function () {
+            document.onmousemove = null;
+        }
+    }
+</script>

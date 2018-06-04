@@ -75,7 +75,7 @@
         big.style.display = "none"; // 隐藏大图片
     }
 
-    //鼠标在small内移动  拖动块固定在鼠标位置
+    //鼠标在small内移动
     small.onmousemove = function (ev) {
         var event = ev || window.event;
         var x = event.clientX - this.offsetLeft - this.parentElement.offsetWidth / 2;
@@ -93,7 +93,7 @@
         mask.style.left = x + "px";
         mask.style.top = y + "px";
 
-        //大图片的位置
+        //大图片的位置显示
         bigImg.style.left = -x * big.offsetWidth/small.offsetWidth + "px";
         bigImg.style.top = -y * big.offsetHeight/small.offsetHeight + "px";
     }
