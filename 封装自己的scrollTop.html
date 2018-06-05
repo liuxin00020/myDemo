@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装自己的scrollTop</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<script>
+    function scroll() {
+        if (window.pageYOffset != null) {
+            return {"left": window.pageXOffset, "top": window.pageYOffset};
+        }
+        // 检测是否是怪异模式的浏览器 就是没有<!DOCTYPE html>
+        else if(document.compatMode == "CSS1Compat"){ // 已声明
+            return {"left":document.documentElement.scrollLeft,"top":document.documentElement.scrollTop};
+        }
+        // 剩下是怪异模式的
+        return {"left":document.body.scrollLeft,"top":document.body.scrollTop};
+    }
+</script>

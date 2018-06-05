@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装可是区域大小的函数</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<script>
+    function client() {
+        if (window.innerWidth != null) { // IE9+ 及新浏览器
+            return {width: window.innerWidth, height: innerHeight};
+        }
+        else if (document.compatMode == "CSS1Compat") { // 标准浏览器
+            return {width: document.documentElement.clientWidth};
+        }
+        else { // 怪异浏览器
+            return {width: document.body.clientWidth, height: document.body.clientHeight};
+        }
+    }
+
+    document.write(client().width)
+</script>

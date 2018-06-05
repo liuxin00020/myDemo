@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>屏幕滑动效果</title>
+    <style>
+        ul, ol {
+            list-style: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body, #ul {
+            width: 100%;
+            height: 100%;
+        }
+
+        #ul li {
+            width: 100%;
+            height: 100%;
+        }
+
+        #ol {
+            position: fixed;
+            top: 0;
+            left: 50px;
+        }
+
+        #ol li {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+    </style>
+    <script src="COMMON/myCommonJs.js"></script>
+</head>
+<body>
+<ul id="ul">
+    <li>首页</li>
+    <li>关注</li>
+    <li>动态</li>
+    <li>风格</li>
+    <li>作品</li>
+</ul>
+<ol id="ol">
+    <li>首页</li>
+    <li>关注</li>
+    <li>动态</li>
+    <li>风格</li>
+    <li>作品</li>
+</ol>
+</body>
+</html>
+
+<script>
+    // 元素
+    var ulBox = $("#ul");
+    var ulLis = ulBox.children;
+    var olBox = $("#ol");
+    var olLis = olBox.children;
+
+    // 背景数组
+    var bgColor = ["pink", "palegreen", "palegoldenrod", "peru", "deepskyblue"];
+
+    // 缓动动画变量   leader:起始位置   target:目标位置  timer 定时器
+    var leader = 0, target = 0, timer = null;
+
+    // 遍历ol
+    for (var i = 0; i < olLis.length; i++) {
+        // 多色背景生成
+        ulLis[i].style.backgroundColor = bgColor[i];
+        olLis[i].style.backgroundColor = bgColor[i];
+
+        olLis[i].index = i; // 当前索引
+
+        // 点击ol中的li
+        olLis[i].onclick = function () {
+            clearInterval(timer);  // 清除定时器
+            target = ulLis[this.index].offsetTop; // 核心语句，目标位置：当前li到顶部的距离
+            timer = setInterval(function () {
+                leader = leader + (target - leader) / 10;
+                window.scrollTo(0,leader);
+            },20)
+
+        }
+    }
+</script>

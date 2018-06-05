@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>页面根据宽度变色</title>
+    <script src="COMMON/myCommonJs.js"></script>
+</head>
+<body>
+
+</body>
+</html>
+
+<script>
+    resize(); // 调用函数
+    window.onresize = resize; // 屏幕大小变动触发
+    // 变色函数
+    function resize() {
+        var clientW = client().width;
+        if (clientW > 960) {
+            document.body.style.backgroundColor = "red";
+        } else if (clientW > 640) {
+            document.body.style.backgroundColor = "green"
+        } else {
+            document.body.style.backgroundColor = "blue"
+        }
+    }
+</script>

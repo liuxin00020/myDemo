@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小火箭返回顶部</title>
+    <style>
+        #demo {
+            width: 50%;
+            margin: auto;
+        }
+
+        #goTop {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            display: none;
+        }
+
+    </style>
+    <script src="../COMMON/myCommonJs.js"></script>
+</head>
+<body>
+<img src="Top.jpg" id="goTop"/>
+<div id="demo">
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+    <p>天王盖地虎，小鸡炖蘑菇</p>
+</div>
+</body>
+</html>
+<script>
+    var goTop = $("#goTop");
+
+    // 滑动滚动条
+    window.onscroll = function () {
+        scroll().top > 0 ? show(goTop) : hide(goTop);
+        leader = scroll().top;
+    }
+
+    // leader 起始位置   target 目标位置   timer 定时器
+    var leader = 0, target = 0, timer = null;
+
+    // 点击火箭
+    goTop.onclick = function () {
+        // 定时缓动回到顶部
+        timer = setInterval(function () {
+            leader = leader + (target - leader) / 10;
+            window.scrollTo(0,leader);
+            if(leader == target){ // 起始位置和目标位置重合，清除定时
+                clearInterval(timer);
+            }
+        }, 20);
+    }
+</script>

@@ -5,13 +5,20 @@
     <title>scroll家族</title>
     <style>
         body{height: 3000px;}
+        #demo12{
+            width: 100px;
+            height: 100px;
+            background-color: palegoldenrod;
+        }
     </style>
 </head>
 <body>
 <ul>
     <li>scrollTop ： 被卷去头部  在鼠标往下滑的时候，上面被隐藏的部分的距离</li>
-    <li>scrollLeft</li>
+    <li>scrollLeft  ： 被卷去头部  在鼠标往右滑的时候，左边被隐藏的部分的距离 </li>
+    <li>window.scrollTo(x,y)  ： 把内容滚动到指定的左边  以左上角为准 </li>
 </ul>
+<div id="demo12"></div>
 </body>
 </html>
 <script>
@@ -22,5 +29,6 @@
         // 兼容性写法
         var scrTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
         document.title = scrTop;
+
     }
 </script>

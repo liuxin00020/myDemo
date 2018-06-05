@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>offsetWidth+clientWidth+scrollWidth</title>
+    <style>
+        .demo {
+            width: 200px;
+            height: 200px;
+            background-color: palegoldenrod;
+            padding-left: 10px;
+            margin-left: 15px;
+            border-left: 18px solid #33aabb;
+        }
+        .demo p{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="demo" id="demo">
+    width: 200px;<br>
+    height: 200px;<br>
+    padding-left:10px ;<br>
+    margin-left: 15px;<br>
+    border-left:18px ;<br>
+
+    <p>我是p标签 width:300px </p>
+</div>
+
+<ul>
+    <li>offsetWidth = width + padding + border</li>
+    <li>clientWidth = width + padding</li>
+    <li>scrollWidth = width + padding + 隐藏宽度 （大小为盒子内容大小，包括滚动条折叠起来的宽度）</li>
+</ul>
+</body>
+</html>
+
+<script>
+    var demo = document.getElementById("demo");
+
+    console.log("offsetWidth：" + demo.offsetWidth);
+    console.log("clientWidth：" + demo.clientWidth);
+    console.log("scrollWidth：" + demo.scrollWidth);
+
+</script>
