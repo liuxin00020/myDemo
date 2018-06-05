@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scroll家族</title>
+    <style>
+        body{height: 3000px;}
+    </style>
+</head>
+<body>
+<ul>
+    <li>scrollTop ： 被卷去头部  在鼠标往下滑的时候，上面被隐藏的部分的距离</li>
+    <li>scrollLeft</li>
+</ul>
+</body>
+</html>
+<script>
+    window.onscroll = function () {
+        console.log("document.body.scrollTop："+document.body.scrollTop); // 谷歌和没有声明DOCTYPE写法
+        console.log("document.documentElement.scrollTop："+document.documentElement.scrollTop) // IE、火狐、声明了DOCTYPE写法
+        console.log("document.pageYoffset："+window.pageYOffset) // IE9+或其他新的浏览器
+        // 兼容性写法
+        var scrTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        document.title = scrTop;
+    }
+</script>
