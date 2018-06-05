@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>垂直滚动条</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 500px;
+            border: 1px solid #ddd;
+            margin: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content {
+            width: 300px;
+            background-color: palegreen;
+            height: auto;
+            padding: 5px 20px 5px 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .scroll {
+            width: 20px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #ccc;
+        }
+
+        .bar {
+            width: 100%;
+            height: 30px;
+            background-color: palevioletred;
+            cursor: pointer;
+            border-radius: 3px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="content">
+        头部<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        文字内容部分<br>
+        尾巴部<br>
+    </div>
+    <div class="scroll">
+        <div class="bar"></div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    var box = document.getElementById("box");
+    var content = box.children[0];
+    var scroll = box.children[1];
+    var bar = scroll.children[0];
+    /*
+    * 滚动条的高度  =  容器的高度/内容的高度*容器的高度
+    * 内容走的距离 = (内容的高度 - 容器的高度) / (滚动条盒子高度-滚动条高度) * 滚动条移动距离
+    * */
+    var barHeight = box.offsetHeight / content.offsetHeight * box.offsetHeight;
+    bar.style.height = barHeight + "px";
+
+    // 内容盒子与滚动条的倍数
+    var conMultiple = (content.offsetHeight - box.offsetHeight) / (scroll.offsetHeight - barHeight);
+
+    // 开始拖动红色盒子
+    startScroll(bar, content);
+
+    function startScroll(obj, content) {
+
+        // 鼠标按下
+        obj.onmousedown = function (ev) {
+            var event = ev || window.event;
+            var topVal = event.clientY - this.offsetTop; // 获取父元素到顶部的距离
+
+            // 鼠标移动
+            document.onmousemove = function (ev2) {
+                var event = ev2 || window.event;
+                var barTop = event.clientY - topVal; // 获取滚动条移动距离
+
+                if (barTop < 0) { // 防止上面溢出
+                    barTop = 0;
+                } else if (barTop > obj.offsetParent.offsetHeight - obj.offsetHeight) { // 防止下面溢出
+                    barTop = obj.offsetParent.offsetHeight - obj.offsetHeight;
+                }
+
+                obj.style.top = barTop + "px";  // 滚动条移动
+                content.style.top = - conMultiple * barTop + "px"; // 内容移动
+
+                //防止选择拖动  清除拖动时候选择的文字
+                window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+
+            }
+
+            // 鼠标弹起，清除移动
+            document.onmouseup = function () {
+                document.onmousemove = null;
+            }
+        }
+    }
+
+</script>
