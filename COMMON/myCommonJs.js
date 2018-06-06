@@ -7,15 +7,15 @@ function show(obj) {
 
 /** 隐藏
  * @param 需要隐藏的对象
-*/
+ */
 function hide(obj) {
     obj.style.display = "none";
 }
 
 /** 获取Id下的class对象
  * @param id:对象Id  classname:id下的className
-*  @return class标签数组
-* */
+ *  @return class标签数组
+ * */
 function getClass(id, classname) {
     if (document.getElementsByClassName) {//支持类名获取
         if (id) {//存在id,获取id下的class
@@ -67,9 +67,9 @@ function $(str) {
 }
 
 /**
-* 封装scrollTop 和 scrollLeft
-* @return {left : scrollLedt，top : scrollTop}
-* */
+ * 封装scrollTop 和 scrollLeft
+ * @return {left:scrollLeft , top:scrollTop}
+ * */
 function scroll() {
     if (window.pageYOffset != null) {
         return {"left": window.pageXOffset, "top": window.pageYOffset};
@@ -83,8 +83,8 @@ function scroll() {
 }
 
 /** 封装可视化区域宽度和高度
-* @return {width:10,height:10}
-* */
+ * @return {width:10 , height:10}
+ * */
 function client() {
     if (window.innerWidth != null) { // IE9+ 及新浏览器
         return {width: window.innerWidth, height: innerHeight};
@@ -95,6 +95,57 @@ function client() {
     else { // 怪异浏览器
         return {width: document.body.clientWidth, height: document.body.clientHeight};
     }
+}
+
+/** 防止冒泡
+ * @param event 事件对象
+ * */
+function forbidBubble(event) {
+    var event = event || window.event;
+    if (event && event.stopPropagation) { // 标准浏览器
+        event.stopPropagation();
+    } else { // IE9-
+        event.cancelBubble = true;
+    }
+}
+
+/** 获取当前事件对象Id  如document.onclick事件，点击id=mask元素，则返回mask
+ * @return targetId（存在event,返回事件操作Id） || null（不存在event）
+ * @param event 事件对象
+ * */
+function getTargetId(event) {
+    var event = event || window.event;
+    if (event) {
+        return event.target ? event.target.id : event.srcElement.id;
+    } else {
+        return null;
+    }
+}
+/** 获取选中的文字
+ * @param event 时间对象
+ * @return 字符串
+ * */
+function getSelectionTxt(event) {
+    var event = event || window.event;
+    if(event && event.getSelection){ // 标准浏览器
+        return event.getSelection().toString();
+    }else{ // IE9-
+        return event.selection.createRange().text;
+    }
+}
+
+/** 在元素内选中文字后300毫秒弹出对话框
+ * @param obj:弹出框对象  mouseX:鼠标x坐标  mouseY:鼠标Y坐标  txt:选中的文本
+*/
+function showBox(obj,mouseX,mouseY,txt) {
+    // 300毫秒后显示
+    setTimeout(function () {
+        obj.style.display = "block";
+        obj.style.left = mouseX + "px";
+        obj.style.top = mouseY + "px";
+        obj.innerHTML = txt;
+    },300);
+
 }
 
 /** 判断浏览器是否在IE9及以下
@@ -112,8 +163,8 @@ function isIE9() {
 }
 
 /** 根据自身宽度自动设置字体大小
-* @param 对象，倍数，最大值
-* */
+ * @param 对象，倍数，最大值
+ * */
 function autoFont(obj, multiple, maxSize) {
     obj.css("font-size", parseInt(obj.width() * multiple) + "px");
     if (obj.fontSize() > maxSize) {
