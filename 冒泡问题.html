@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>冒泡问题</title>
+</head>
+<body>
+<button id="btn">点击我，出现冒泡</button>
+<button id="btnForbid">点击我，防止冒泡</button>
+<ul>
+    <li><h4>何为冒泡</h4></li>
+    <li>当一个dom元素触发事件时，会一层层往上触发其事件，一直到dom根部</li>
+</ul>
+<ul>
+    <li><h4>冒泡顺序</h4></li>
+    <li>IE6：div->body->html->document</li>
+    <li>其他浏览器：div->body->html->document->window</li>
+    <li>不是所有事件都冒泡，以下事件不冒泡：blur，focus，load，unload</li>
+</ul>
+<ul>
+    <li><h4>防止冒泡的方法</h4></li>
+    <li>标准浏览器(w3c)：event.stopPropagation(); // 停止传播 </li>
+    <li>IE9-:event.cancelBubble = true; // 取消冒泡 </li>
+    <li>兼容写法： if(event && event.stopPropagation){
+        event.stopPropagation(); // 停止传播 w3c
+        }else{
+        event.cancelBubble = true; // 取消冒泡 IE9-
+        }
+    </li>
+</ul>
+</body>
+</html>
+
+<script>
+    var btn = document.getElementById("btn");
+    var btnForbid = document.getElementById("btnForbid");
+    document.onclick = function () {
+        alert("点击了document");
+    }
+    // 出现冒泡
+    btn.onclick = function () {
+        alert("点击了冒泡button");
+    }
+    // 防止冒泡
+    btnForbid.onclick = function (ev) {
+        alert("点击了防止冒泡button");
+        var event = ev || window.event;
+        if(event && event.stopPropagation){
+            event.stopPropagation(); // 停止传播 w3c
+        }else{
+            event.cancelBubble = true; // 取消冒泡 IE9-
+        }
+    }
+</script>
