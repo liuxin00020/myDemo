@@ -1,19 +1,20 @@
 /** 显示
- * @param 需要显示的对象
+ * @param obj 需要显示的对象
  */
 function show(obj) {
     obj.style.display = "block";
 }
 
 /** 隐藏
- * @param 需要隐藏的对象
+ * @param obj 需要隐藏的对象
  */
 function hide(obj) {
     obj.style.display = "none";
 }
 
 /** 获取Id下的class对象
- * @param id:对象Id  classname:id下的className
+ * @param id:对象Id
+ * @param classname:id下的className
  *  @return class标签数组
  * */
 function getClass(id, classname) {
@@ -45,7 +46,7 @@ function getClass(id, classname) {
 }
 
 /** $("#demo")  $(".demo")  $("div")
- *  @param id class tagName
+ *  @param id || class || tagName
  */
 
 function $(str) {
@@ -135,7 +136,9 @@ function getSelectionTxt(event) {
 }
 
 /** 在元素内选中文字后300毫秒弹出对话框
- * @param obj:弹出框对象  mouseX:鼠标x坐标  mouseY:鼠标Y坐标  txt:选中的文本
+ * @param obj:弹出框对象
+ * @param mouseX:鼠标x坐标
+ * @param mouseY:鼠标Y坐标  txt:选中的文本
 */
 function showBox(obj,mouseX,mouseY,txt) {
     // 300毫秒后显示
@@ -146,6 +149,26 @@ function showBox(obj,mouseX,mouseY,txt) {
         obj.innerHTML = txt;
     },300);
 
+}
+
+/**
+ * 匀速运动函数
+ * @param obj 运动的盒子
+ * @param target 相对盒子的offsetLeft目标位置
+ */
+function animate(obj, target) {
+    clearInterval(obj.timer); // 先清除定时器
+    // 走到target位置，判断应该+还是-
+    var speed = obj.offsetLeft < target ? 5 : -5;
+    // 定时开始
+    obj.timer = setInterval(function () {
+        var result = target - obj.offsetLeft; // 定时器停下来的变量，他们的差值不可能小于5
+        obj.style.left = obj.offsetLeft + speed + "px";
+        if (Math.abs(result) <= 5) { // 绝对值，差值小于5，则到位置
+            clearInterval(obj.timer);
+            obj.style.left = target + "px"; // 盒子定位到目标位置
+        }
+    }, 30)
 }
 
 /** 判断浏览器是否在IE9及以下
