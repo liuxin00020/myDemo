@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>均速动画封装</title>
+    <style>
+        #box,#box2 {
+            width: 100px;
+            height: 100px;
+            background-color: peru;
+            position: absolute;
+        }
+        #box2{
+            top:200px;
+        }
+    </style>
+</head>
+<body>
+<button id="btn200">200</button>
+<button id="btn400">400</button>
+<div id="box"></div>
+<div id="box2"></div>
+</body>
+</html>
+<script>
+    var btn200 = document.getElementById("btn200");
+    var btn400 = document.getElementById("btn400");
+    var box = document.getElementById("box");
+    var box2 = document.getElementById("box2");
+
+    btn200.onclick = function () {
+        animate(box, 200);
+        animate(box2, 200);
+    }
+    btn400.onclick = function () {
+        animate(box, 400);
+    }
+
+    /**
+     * 匀速运动函数
+     * @param obj 运动的盒子
+     * @param target 相对盒子的offsetLeft目标位置
+     */
+    function animate(obj, target) {
+        // 走到target位置，倒回去
+        var speed = obj.offsetLeft < target ? 5 : -5;
+        // 定时开始
+        obj.timer = setInterval(function () {
+            var result = target - obj.offsetLeft; // 定时器停下来的变量，他们的差值不可能小于5
+            obj.style.left = obj.offsetLeft + speed + "px";
+            if (Math.abs(result) <= 5) { // 绝对值，差值小于5，则到位置
+                clearInterval(obj.timer);
+                obj.style.left = target + "px"; // 盒子定位到目标位置
+            }
+        }, 30)
+    }
+</script>

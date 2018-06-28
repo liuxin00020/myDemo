@@ -4,69 +4,175 @@
     <meta charset="UTF-8">
     <title>京东轮播效果</title>
     <style>
-        *{margin: 0;padding: 0;}
-        ul,ol{list-style: none;}
-        .box{
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, ol {
+            list-style: none;
+        }
+
+        .box {
             width: 550px;
-            height:450px;
+            height: 450px;
             margin: 100px auto;
-            overflow: hidden;
+            border: 1px solid #ccc;
+            padding: 7px;
             position: relative;
         }
-        .circle{
+
+        .slider {
+            width:550px;
+            height:450px;
+            overflow:hidden;
+            position:relative;
+        }
+
+        .slider ul {
+            width: 1000%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slider ul li {
+            width:550px; height:450px; overflow:hidden; float:left;
+        }
+
+        .circle {
             position: absolute;;
             left: 50%;
             margin-left: -50px;
             bottom: 10px;
         }
-        .circle span{
+
+        .circle li {
             width: 18px;
-            height:18px;
+            height: 18px;
             line-height: 18px;
             border-radius: 50%;
             background-color: azure;
             display: inline-block;
             text-align: center;
             cursor: pointer;
-            margin-right:5px;
+            margin-right: 5px;
         }
-        .circle span.current{
-            background-color: brown;
+
+        .circle li.current {
+            background-color: peru;
             color: #fff;
         }
     </style>
+    <script>
+        /**
+         * 匀速运动函数
+         * @param obj 运动的盒子
+         * @param target 相对盒子的offsetLeft目标位置
+         */
+        function animate(obj, target) {
+            clearInterval(obj.timer); // 先清除定时器
+            // 走到target位置，判断应该+还是-
+            var speed = obj.offsetLeft < target ? 15 : -15;
+            // 定时开始
+            obj.timer = setInterval(function () {
+                var result = target - obj.offsetLeft; // 定时器停下来的变量，他们的差值不可能小于5
+                obj.style.left = obj.offsetLeft + speed + "px";
+                if (Math.abs(result) <= 15) { // 绝对值，差值小于5，则到位置
+                    clearInterval(obj.timer);
+                    obj.style.left = target + "px"; // 盒子定位到目标位置
+                }
+            }, 10)
+        }
+        window.onload = function () {
+            // 获取元素
+            var scroll = document.getElementById("scroll");
+            var scrollul = document.getElementById("scrollul");
+            var ullis = scrollul.children;//所有的li
+
+            // 因为要做无缝滚动，所以要克隆第一张放到最后
+            scrollul.appendChild(ullis[0].cloneNode(true));
+
+            // 创建ol和小li  圆点盒子
+            var ol = document.createElement("ol");
+            ol.setAttribute("class", "circle");
+            // 动态生成小圆点 1 2 3 4 5
+            for (var i = 0; i < ullis.length-1; i++) {
+                var li = document.createElement("li");
+                li.innerHTML = i + 1;
+                ol.appendChild(li);
+            }
+            scroll.appendChild(ol);
+            ol.children[0].setAttribute("class", "current");
+
+            /* ---- 动画开始 ---- */
+            var ollis = ol.children;
+            // 鼠标移动到原点
+            for (var i = 0; i < ollis.length; i++) {
+                ollis[i].index = i; // 获得当前第几个小li的索引号
+                ollis[i].onmouseover = function () {
+                    // ol里面的li清除所有class，再将当前的class=current
+                    for (var j = 0; j < ollis.length; j++) {
+                        ollis[j].removeAttribute("class");
+                    }
+                    ollis[this.index].setAttribute("class", "current");
+
+                    // 动画函数
+                    animate(scrollul, -this.index * ullis[0].offsetWidth);
+
+                    key = point = this.index; // 鼠标放上去，自动轮播从当前开始
+                }
+            }
+
+            /* ---- 添加定时器（自动轮播） ---- */
+            var autoTimer = null;
+            var key = 0;// 控制播放张数
+            var point = 0;
+            autoTimer = setInterval(autoPlay, 1000);
+
+            function autoPlay() {
+                // 图片轮播
+                key++;
+                if (key >= ullis.length) { // 先++后判断
+                    scrollul.style.left = 0 + "px";// 迅速倒回
+                    key = 1; // 应该开始播放第二张
+                }
+                animate(scrollul, -key * ullis[0].offsetWidth);
+
+                // 原点
+                point++;
+                if (point >= ollis.length) {
+                    point = 0;
+                }
+                for (var i = 0 ; i < ollis.length; i++) { // 先清除所有的
+                    ollis[i].removeAttribute("class");
+                }
+                ollis[point].setAttribute("class", "current"); // 留下当前的
+            }
+
+            // 鼠标经过大盒子，停止定时器
+            scroll.onmouseover = function () {
+                clearInterval(autoTimer);
+            }
+            scroll.onmouseout = function () {
+                autoTimer = setInterval(autoPlay, 1000);
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="box" id="scroll">
-        <div class="slider">
-            <ul id="scrollul">
-                <li><img src="img/lb1.jpg" alt=""></li>
-                <li><img src="img/lb2.jpg" alt=""></li>
-                <li><img src="img/lb3.jpg" alt=""></li>
-                <li><img src="img/lb4.jpg" alt=""></li>
-                <li><img src="img/lb5.jpg" alt=""></li>
-                <li><img src="img/lb6.jpg" alt=""></li>
-                <li><img src="img/lb7.jpg" alt=""></li>
-            </ul>
-        </div>
+<div class="box" id="scroll">
+    <div class="slider">
+        <ul id="scrollul">
+            <li><img src="img/lb1.jpg" alt=""></li>
+            <li><img src="img/lb2.jpg" alt=""></li>
+            <li><img src="img/lb3.jpg" alt=""></li>
+            <li><img src="img/lb4.jpg" alt=""></li>
+            <li><img src="img/lb5.jpg" alt=""></li>
+            <li><img src="img/lb6.jpg" alt=""></li>
+            <li><img src="img/lb7.jpg" alt=""></li>
+        </ul>
     </div>
+</div>
 </body>
 </html>
-<script>
-    var scroll = document.getElementById("scroll");
-
-    //创建原点div盒子
-    var circle = document.createElement("div");
-    circle.setAttribute("class","circle");
-    scroll.appendChild(circle);
-
-    //原点div盒子 动态生成原点span
-    var lis = document.getElementById("scrollul").children;//所有的li
-    for(var i=0 ;i<lis.length;i++){//遍历lis生成原点
-        var span = document.createElement("span");
-        span.innerHTML = i+1;
-        circle.appendChild(span);
-    }
-    var circleChild = circle.children;
-    circleChild[0].setAttribute("class","current");//第一个原点修改样式
-</script>

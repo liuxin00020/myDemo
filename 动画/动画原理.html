@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画原理</title>
+    <style>
+        #box{
+            width: 100px;
+            height: 100px;
+            background-color: peru;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<button id="btnStart">开始</button>
+<div id="box"></div>
+</body>
+</html>
+<script>
+    // 动画原理  盒子的left = 盒子的offsetLeft + 步长（如10）
+    var box = document.getElementById("box");
+    var btnStart = document.getElementById("btnStart");
+    var timer = null;
+    btnStart.onclick = function () {
+        timer = setInterval(function () {
+            box.style.left = box.offsetLeft + 10 +"px";
+            if(box.offsetLeft > 400){
+                clearInterval(timer);
+            }
+        },20);
+    }
+</script>
