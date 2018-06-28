@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>点、广告牌、标签</title>
+    <script src="../COMMON/Cesium/Cesium.js"></script>
+    <style>
+        @import url(../COMMON/Cesium/Widgets/widgets.css);
+
+        html, body, #demo5 {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+<div id="demo5"></div>
+</body>
+</html>
+<script>
+    var demo5 = new Cesium.Viewer('demo5');
+
+    var citizensBankPark = demo5.entities.add({
+        name : 'Citizens Bank Park',
+        position : Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
+
+        // 点
+        // point : {
+        //     pixelSize : 5, // 点的大小
+        //     color : Cesium.Color.RED, // 点的颜色
+        //     outlineColor : Cesium.Color.WHITE, // 点的边框颜色
+        //     outlineWidth : 2  // 点的边框大小
+        // },
+
+        // 广告牌  原理：利用图像
+        billboard : {
+            image : 'ad.jpg',
+            width : 64,
+            height : 64
+        },
+
+        // 标签
+        label : {
+            text : 'Citizens Bank Park',
+            font : '14pt monospace',
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            outlineWidth : 2,
+            // verticalOrigin : Cesium.VerticalOrigin.BOTTOM, // 标签位于点的上方
+            // pixelOffset : new Cesium.Cartesian2(0, -9)  // 标签偏移位置  向上9个像素 类似于margin-top:-9px
+
+            verticalOrigin : Cesium.VerticalOrigin.TOP, // 标签位于点的下方
+            pixelOffset : new Cesium.Cartesian2(0, 40)  // 标签偏移位置  向下30个像素 类似于margin-top:40px
+        }
+
+    });
+
+    demo5.zoomTo(citizensBankPark);
+</script>

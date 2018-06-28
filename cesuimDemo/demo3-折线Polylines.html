@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>demo3-折线Polylines</title>
+    <script src="../COMMON/Cesium/Cesium.js"></script>
+    <style>
+        @import url(../COMMON/Cesium/Widgets/widgets.css);
+
+        html, body, #demo3 {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="demo3"></div>
+</body>
+</html>
+<script>
+    var demo3 = new Cesium.Viewer("demo3");
+
+    var entity = demo3.entities.add({
+        name: "我是这根线的标题", // 描述标题
+
+        // 折线参数
+        polyline: {
+            positions: Cesium.Cartesian3.fromDegreesArray([-77, 35, -77.1, 35]),
+            width: 10,
+
+            // 普通折线
+            // material: Cesium.Color.BLUE,
+
+            // 带边框的折线 框线的宽度不能超过线本身的宽度，否则看不见线本身的颜色了
+            // material: new Cesium.PolylineOutlineMaterialProperty({
+            //     color: Cesium.Color.ORANGE,
+            //     outlineWidth: 5,
+            //     outlineColor: Cesium.Color.BLUE
+            // }),
+
+            // 发光的线  原理：将线抽取中间指定份额展示白色，默认0.2  如此例提取0.3显示白色
+            material: new Cesium.PolylineGlowMaterialProperty({
+                glowPower: 0.3, // 发光份额
+                color: Cesium.Color.BLUE,
+
+            }),
+        },
+        description :"<p style='background-color:peru;'>我是一根10px的线</p>"
+    });
+
+
+    demo3.zoomTo(entity);
+</script>

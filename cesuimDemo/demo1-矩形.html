@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>demo1矩形（含体积）</title>
+    <script src="../COMMON/Cesium/Cesium.js"></script>
+    <style>
+        @import url(../COMMON/Cesium/Widgets/widgets.css);
+
+        html, body, #demo1 {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+<div id="demo1"></div>
+</body>
+</html>
+<script>
+    // 初始化地图
+    var demo1 = new Cesium.Viewer("demo1");
+
+    // 在地图上建立一个透明的平面矩形
+    var wyoming = demo1.entities.add({
+        name: 'Wyoming',
+        polygon: {
+            // 位置
+            hierarchy: Cesium.Cartesian3.fromDegreesArray([
+                -109.080842, 45.002073,
+                -105.91517, 45.002073,
+                -104.058488, 44.996596,
+                -104.053011, 43.002989,
+                -104.053011, 41.003906,
+                -105.728954, 40.998429,
+                -107.919731, 41.003906,
+                -109.04798, 40.998429,
+                -111.047063, 40.998429,
+                -120.047063, 42.000709,
+                -120.047063, 44.476286,
+                -120.05254, 45.002073]),
+            height: 0, // 离地高度
+            material: Cesium.Color.GREEN.withAlpha(0.5), // 填充
+
+            // 外边线
+            outline: true,
+            outlineColor: Cesium.Color.BLACK
+        }
+    });
+
+    // 让它拥有体积 二者之差形成体积高度
+    wyoming.polygon.height = 100000;
+    wyoming.polygon.extrudedHeight = 200000;
+
+    // 给它一个描述 实验表明：样式必须是内联样式，class或id无效
+    wyoming.description = "<p style='background-color:palegoldenrod;width: 200px; height: 200px;color:peru;'>这是一块大果冻</p>";
+
+    //1. 这是一个动画效果(普通效果)，进入后镜头就会自动转到这个实体处
+    // demo1.zoomTo(wyoming);
+
+    // 2. 这是一个动画效果(设置旋转角度和俯瞰位置)  查看角度 逆时针旋转60°，俯瞰角度30°- 只能是负值
+    // var heading = Cesium.Math.toRadians(60);
+    // var pitch = Cesium.Math.toRadians(-30);
+    // demo1.zoomTo(wyoming, new Cesium.HeadingPitchRange(heading, pitch));
+
+
+    // 3. 这是一个动画效果(飞行效果)  飞行后聚焦在wyoming
+    // demo1.flyTo(wyoming).then(function(result){
+    //     if (result) {
+    //         demo1.selectedEntity = wyoming;
+    //     }
+    // });
+
+    // 4. 这是一个动画效果  和zoomTo效果一致  原理：先定位后追踪到定位位置
+    wyoming.position = Cesium.Cartesian3.fromDegrees(-300.724, -100.68);
+    demo1.trackedEntity = wyoming;
+
+</script>

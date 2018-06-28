@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>demo4实体管理</title>
+    <script src="../COMMON/Cesium/Cesium.js"></script>
+    <style>
+        @import url(../COMMON/Cesium/Widgets/widgets.css);
+
+        html, body, #demo4 {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+<div id="demo4"></div>
+</body>
+</html>
+<script>
+    var demo4 = new Cesium.Viewer("demo4");
+
+    // 检测创建的实体
+    function onChanged(collection, added, removed, changed) {
+        var msg = 'Added ids';
+        for (var i = 0; i < added.length; i++) {
+            msg += '\n' + added[i].id;
+        }
+        console.log(msg);
+    }
+
+    demo4.entities.collectionChanged.addEventListener(onChanged);
+
+
+    // 增加一个唯一Id的实体  id名称自定义
+    demo4.entities.add({
+        id: "uniqueId",
+    });
+
+    // 通过Id获取实体,不存在返回undefined
+    var entity = demo4.entities.getById("uniqueId");
+    console.log(entity);
+
+    // 更新一个实体 存在则获取，不存在则创建
+    var newEntity = demo4.entities.getOrCreateEntity("id");
+    console.log(newEntity);
+
+</script>

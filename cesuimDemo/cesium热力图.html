@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>cesium热力图</title>
+    <script src="../COMMON/Cesium/Cesium.js"></script>
+    <!--<script src="js/heatmap.min.js"></script>-->
+    <script src="../COMMON/cesiumheatmap.js"></script>
+    <style>
+        @import url(../COMMON/Cesium/Widgets/widgets.css);
+
+        html, body, #viewer {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="viewer" class="fullSize"></div>
+</body>
+</html>
+
+<script>
+    var viewer = new Cesium.Viewer("viewer");
+
+    var radius = [15,20,25,30,35,40.45,50];
+
+    // 第一个热力图
+    var coordinate = [-109.0, 30.0, -80.0, 50.0]; // 坐标
+    var heatMap = createHeatMap(getData(500).max, getData(500).data, radius[0]); // 热力图
+    var entry1 = creatRectangle(viewer, coordinate, heatMap); // 热力图填充到矩形
+
+    // 第二个热力图
+    var coordinate1 = [-130.0, 50.0, -90.0, 80.0]; // 坐标
+    var heatMap1 = createHeatMap(getData(1000).max, getData(1000).data, radius[0]); // 热力图
+    var entry2 = creatRectangle(viewer, coordinate1, heatMap1); // 热力图填充到矩形
+
+    // 鼠标滚动事件，改变热力图radius
+    document.onmousewheel = function (ev) {
+        var cameraHeight = viewer.camera.positionCartographic.height;
+        if (cameraHeight > 20183849) {
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[0]); // 热力图
+        }else if(cameraHeight > 12539841){
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[1]); // 热力图
+        }else if(cameraHeight > 6139061){
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[2]); // 热力图
+        }else if(cameraHeight > 2369702){
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[3]); // 热力图
+        }else if(cameraHeight > 914005){
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[4]); // 热力图
+        }else if(cameraHeight > 277976){
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[4]); // 热力图
+        }else{
+            heatMap = createHeatMap(getData(1000).max, getData(1000).data, radius[6]); // 热力图
+        }
+        entry1.rectangle.material = heatMap._renderer.canvas;
+        entry2.rectangle.material = heatMap._renderer.canvas;
+    }
+
+    // 创建正方形 绑定热力图
+    function creatRectangle(viewer, coordinate, heatMap) {
+        var entry = viewer.entities.add({
+            name: 'Rotating rectangle with rotating texture coordinate',
+            show: true,
+            rectangle: {
+                coordinates: Cesium.Rectangle.fromDegrees(coordinate[0], coordinate[1], coordinate[2], coordinate[3]),
+                material: heatMap._renderer.canvas // 核心语句，填充热力图
+            }
+        });
+        return entry;
+    }
+
+    // 创建热力图
+    function createHeatMap(max, data, radius) {
+        // 创建元素
+        var heatDoc = document.createElement("div");
+        heatDoc.setAttribute("style", "width:1000px;height:1000px;margin: 0px;display: none;");
+        document.body.appendChild(heatDoc);
+        // 创建热力图对象
+        var heatmap = h337.create({
+            container: heatDoc,
+            radius: radius,
+            maxOpacity: .5,
+            minOpacity: 0,
+            blur: .75,
+            gradient: {
+                '0.9': 'red',
+                '0.8': 'orange',
+                '0.7': 'yellow',
+                '0.5': 'green',
+                '0.3': 'blue',
+            },
+        });
+        // 添加数据
+        heatmap.setData({
+            max: max,
+            data: data
+        });
+        return heatmap;
+    }
+
+    // 生成len个随机数据
+    function getData(len) {
+        //构建一些随机数据点
+        var points = [];
+        var max = 0;
+        var width = 1000;
+        var height = 1000;
+        while (len--) {
+            var val = Math.floor(Math.random() * 100);
+            max = Math.max(max, val);
+            var point = {
+                x: Math.floor(Math.random() * width),
+                y: Math.floor(Math.random() * height),
+                value: val
+            };
+            points.push(point);
+        }
+        return {max: max, data: points}
+    }
+</script>

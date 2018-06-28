@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>demo2椭圆</title>
+    <script src="../COMMON/Cesium/Cesium.js"></script>
+    <style>
+        @import url(../COMMON/Cesium/Widgets/widgets.css);
+
+        html, body, #demo2 {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="demo2"></div>
+</body>
+</html>
+
+<script>
+    var demo2 = new Cesium.Viewer("demo2");
+    var entity = demo2.entities.add({
+        name:"我是椭圆的标题",
+        //椭圆所在位置
+        position: Cesium.Cartesian3.fromDegrees(-103.0, 40.0),
+        // 椭圆参数
+        ellipse: {
+            semiMinorAxis: 200000.0, // y半径
+            semiMajorAxis: 400000.0, // x半径
+
+            // material: Cesium.Color.BLUE.withAlpha(0.5),//填充颜色 透明度
+            material: "test1.png",// 填充图片
+            height:10,
+
+            //填充条纹
+            // material : new Cesium.StripeMaterialProperty({
+            //     evenColor : Cesium.Color.WHITE,
+            //     oddColor : Cesium.Color.BLACK,
+            //     repeat : 4 // 重复的次数 4个条纹
+            // }),
+
+            // 填充棋盘格
+            // material:new Cesium.CheckerboardMaterialProperty({
+            //     evenColor: Cesium.Color.WHITE,
+            //     oddColor: Cesium.Color.BLACK,
+            //     repeat: new Cesium.Cartesian2(3, 5) // 横格(3)和纵格(5)的个数
+            // }),
+
+            // 填充网格
+            // material: new Cesium.GridMaterialProperty({
+            //     color: Cesium.Color.BLUE,
+            //     cellAlpha: 0.2, // 透明度
+            //     lineCount: new Cesium.Cartesian2(3, 8), // 线条条数 竖线7(8-1) 横线2(3-1)
+            //     lineThickness: new Cesium.Cartesian2(1.0, 2.0) // 线条粗细 竖线(1.0) 横线(2.0)
+            // })
+
+            // // 空心椭圆  原理：去除填充，留下轮廓
+            // fill: false,
+            // outline: true,
+            // outlineColor:  Cesium.Color.BLUE,
+            // outlineWidth: 10.0, // 轮廓宽度无法定义，定义了也无效
+        }
+    });
+
+    // 变为圆柱
+    // entity.ellipse.height = 10000;
+    // entity.ellipse.extrudedHeight = 90000;
+
+    // 描述 所有东西都有描述
+    entity.description = "椭圆也有描述"
+
+    demo2.zoomTo(demo2.entities);
+</script>
