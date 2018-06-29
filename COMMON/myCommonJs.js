@@ -1,21 +1,27 @@
-/** 显示
+/**
+ * @description 显示
  * @param obj 需要显示的对象
+ * @author 刘欣
  */
 function show(obj) {
     obj.style.display = "block";
 }
 
-/** 隐藏
+/**
+ * @description 隐藏
  * @param obj 需要隐藏的对象
+ * @author 刘欣
  */
 function hide(obj) {
     obj.style.display = "none";
 }
 
-/** 获取Id下的class对象
+/**
+ * @description 获取Id下的class对象
  * @param id:对象Id
  * @param classname:id下的className
- *  @return class标签数组
+ * @return class标签数组
+ * @author 刘欣
  * */
 function getClass(id, classname) {
     if (document.getElementsByClassName) {//支持类名获取
@@ -45,8 +51,10 @@ function getClass(id, classname) {
     return arr;
 }
 
-/** $("#demo")  $(".demo")  $("div")
+/**
+ * @description $("#demo")  $(".demo")  $("div")
  *  @param id || class || tagName
+ *  @author 刘欣
  */
 
 function $(str) {
@@ -68,8 +76,9 @@ function $(str) {
 }
 
 /**
- * 封装scrollTop 和 scrollLeft
+ * @description 封装scrollTop 和 scrollLeft
  * @return {left:scrollLeft , top:scrollTop}
+ * @author 刘欣
  * */
 function scroll() {
     if (window.pageYOffset != null) {
@@ -83,8 +92,10 @@ function scroll() {
     return {"left": document.body.scrollLeft, "top": document.body.scrollTop};
 }
 
-/** 封装可视化区域宽度和高度
+/**
+ *  @description 封装可视化区域宽度和高度
  * @return {width:10 , height:10}
+ * @author 刘欣
  * */
 function client() {
     if (window.innerWidth != null) { // IE9+ 及新浏览器
@@ -98,8 +109,10 @@ function client() {
     }
 }
 
-/** 防止冒泡
+/**
+ *  @description 防止冒泡
  * @param event 事件对象
+ * @author 刘欣
  * */
 function forbidBubble(event) {
     var event = event || window.event;
@@ -110,9 +123,11 @@ function forbidBubble(event) {
     }
 }
 
-/** 获取当前事件对象Id  如document.onclick事件，点击id=mask元素，则返回mask
+/**
+ * @description 获取当前事件对象Id  如document.onclick事件，点击id=mask元素，则返回mask
  * @return targetId（存在event,返回事件操作Id） || null（不存在event）
  * @param event 事件对象
+ * @author 刘欣
  * */
 function getTargetId(event) {
     var event = event || window.event;
@@ -122,9 +137,11 @@ function getTargetId(event) {
         return null;
     }
 }
-/** 获取选中的文字
+/**
+ * @description 获取选中的文字
  * @param event 时间对象
  * @return 字符串
+ * @author 刘欣
  * */
 function getSelectionTxt(event) {
     var event = event || window.event;
@@ -135,10 +152,12 @@ function getSelectionTxt(event) {
     }
 }
 
-/** 在元素内选中文字后300毫秒弹出对话框
+/**
+ * @description 在元素内选中文字后300毫秒弹出对话框
  * @param obj:弹出框对象
  * @param mouseX:鼠标x坐标
  * @param mouseY:鼠标Y坐标  txt:选中的文本
+ *  @author 刘欣
 */
 function showBox(obj,mouseX,mouseY,txt) {
     // 300毫秒后显示
@@ -152,41 +171,62 @@ function showBox(obj,mouseX,mouseY,txt) {
 }
 
 /**
- * 匀速运动函数
- * @param obj 运动的盒子
- * @param target 相对盒子的offsetLeft目标位置
+ * @description 匀速运动  2018/6/29
+ * @param obj 运动对象 box
+ * @param target 目标位置 400
+ * @param attr 运动属性 "left"
+ * @author 刘欣
  */
-function animateUniform(obj, target) {
-    clearInterval(obj.timer); // 先清除定时器
-    // 走到target位置，判断应该+还是-
-    var speed = obj.offsetLeft < target ? 5 : -5;
+function animate(obj, target, attr) {
+    clearInterval(obj.timer);
+    // 走到target位置，倒回去
+    var speed = parseInt(getStyle(obj, attr)) < target ? 5 : -5;
     // 定时开始
     obj.timer = setInterval(function () {
-        var result = target - obj.offsetLeft; // 定时器停下来的变量，他们的差值不可能小于5
-        obj.style.left = obj.offsetLeft + speed + "px";
-        if (Math.abs(result) <= 5) { // 绝对值，差值小于5，则到位置
+        var current = parseInt(getStyle(obj, attr)); // 当前属性值
+        var result = target - current; // 定时器停下来的变量，他们的差值不可能小于5
+        obj.style[attr] = current + speed + "px";
+        if (Math.abs(result) <= 5) { // 绝对值，差值小于5，则固定到目标位置
             clearInterval(obj.timer);
-            obj.style.left = target + "px"; // 盒子定位到目标位置
+            obj.style[attr] = target + "px"; // 盒子定位到目标位置
         }
     }, 30)
 }
 
 /**
- * 缓动动画函数
- * @param obj 动画对象
- * @param target 目标位置
+ * @description 单个属性缓动动画函数 2018/6/29
+ * @param obj 动画对象 box
+ * @param target 目标位置 400
+ * @param attr 移动的属性 "left"
+ *  @author 刘欣
  */
-function animateVariable(obj, target) {
+function animateVariable(obj, target, attr) {
     clearInterval(obj.timer);
     obj.timer = setInterval(function () {
-        // 动画原理  移动距离 = 对象距离 + 步长
-        var step = (target - obj.offsetLeft) / 10; // 步长
-        step = step > 0 ? Math.ceil(step) : Math.floor(step); // 步长取整 确保对象到达目标位置
-        obj.style.left = obj.offsetLeft + step + "px";
-        if (obj.style.left == target) {
+        // 计算步长  动画原理  运动距离 = 盒子本身的距离 + 步长
+        var current = parseInt(getStyle(obj, attr)); // 得到当前属性值
+        var step = (target - current) / 10; // 计算步长
+        step = step > 0 ? Math.ceil(step) : Math.floor(step); // 步长取整，确保到达目标位置
+        obj.style[attr] = current + step + "px"; // 运动距离
+        if (current == target) { // 到达目标位置，清除定时器
             clearInterval(obj.timer);
         }
     }, 30);
+}
+
+
+/**
+ * @description 获取css样式属性值  2018/6/29
+ * @param obj 获取对象，如box
+ * @param attr 属性，如 "width"
+ *  @author 刘欣
+ */
+function getStyle(obj,attr) {
+    if(obj.currentStyle){ // IE
+        return obj.currentStyle[attr];
+    }else{ // w3c浏览器
+        return window.getComputedStyle(obj,null)[attr];
+    }
 }
 
 /** 判断浏览器是否在IE9及以下
