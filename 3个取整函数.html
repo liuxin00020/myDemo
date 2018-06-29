@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3个取整函数</title>
+</head>
+<body>
+<ul>
+    <li>
+        Math.ceil() 向上取整，天花板<br>
+        Math.ceil(1.01)-->2<br>
+        Math.ceil(1.9)-->2<br>
+        Math.ceil(-1.01)-->-1
+    </li>
+    <li>
+        Math.floor() 向下取整，地板 <br>
+        Math.floor(1.01)-->1<br>
+        Math.floor(1.9)-->1<br>
+        Math.floor(-1.01)-->-2
+    </li>
+    <li>
+        Math.round() 四舍五入 <br>
+        Math.round(1.01)-->1 <br>
+        Math.round(1.9)-->2 <br>
+        Math.round(-1.01)-->-1
+    </li>
+</ul>
+</body>
+</html>
+<script>
+    // 向上取整 天花板
+    console.log(Math.ceil(1.01));
+    console.log(Math.ceil(1.9));
+    console.log(Math.ceil(-1.01));
+
+    // 向下取整 地板
+    console.log(Math.floor(1.01));
+    console.log(Math.floor(1.9));
+    console.log(Math.floor(-1.01));
+
+    // 四舍五入
+    console.log(Math.round(1.01));
+    console.log(Math.round(1.9));
+    console.log(Math.round(-1.01));
+</script>
