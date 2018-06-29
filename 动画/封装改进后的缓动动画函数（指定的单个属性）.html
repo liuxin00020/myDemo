@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装缓动动画函数</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+            background-color: palegreen;
+            position: absolute;
+            left: 0;
+            top: 50px;
+        }
+    </style>
+</head>
+<body>
+<button id="btn200">右移200</button>
+<button id="btn400">右移400</button>
+<button id="btntop200">上移200</button>
+<button id="btntop400">上移400</button>
+<div id="box"></div>
+</body>
+</html>
+<script>
+    var btn200 = document.getElementById("btn200");
+    var btn400 = document.getElementById("btn400");
+    var box = document.getElementById("box");
+    btn200.onclick = function () {
+        animate(box, 200, "left");
+    }
+    btn400.onclick = function () {
+        animate(box, 400, "top");
+    }
+
+    /**
+     * 单个属性缓动动画函数
+     * @param obj 动画对象 box
+     * @param target 目标位置 400
+     * @param attr 移动的属性 "left"
+     */
+    function animate(obj, target, attr) {
+        clearInterval(obj.timer);
+        obj.timer = setInterval(function () {
+            // 计算步长  动画原理  运动距离 = 盒子本身的距离 + 步长
+            var current = parseInt(getStyle(obj, attr)); // 得到当前属性值
+            var step = (target - current) / 10; // 计算步长
+            step = step > 0 ? Math.ceil(step) : Math.floor(step); // 步长取整，确保到达目标位置
+            obj.style[attr] = current + step + "px"; // 运动距离
+            if (current == target) { // 到达目标位置，清除定时器
+                clearInterval(obj.timer);
+            }
+        }, 30);
+    }
+
+    /**
+     * 获取css样式属性值
+     * @param obj 获取对象，如box
+     * @param attr 属性，如 "width"
+     */
+    function getStyle(obj, attr) {
+        if (obj.currentStyle) { // IE
+            return obj.currentStyle[attr];
+        } else { // w3c浏览器
+            return window.getComputedStyle(obj, null)[attr];
+        }
+    }
+
+</script>

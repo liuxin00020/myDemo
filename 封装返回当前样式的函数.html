@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访问css的两种方法</title>
+    <style>
+        div{
+            width: 100px;
+            height: 200px;
+            background-color: palegreen;
+            position: absolute;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="demo" style="margin-top: 10px"></div>
+</body>
+</html>
+<script>
+    var demo = document.getElementById("demo");
+    console.log(getStyle(demo,"width"));
+    console.log(getStyle(demo,"height"));
+    console.log(getStyle(demo,"position"));
+
+
+    /**
+     * 获取css样式属性值
+     * @param obj 获取对象，如box
+     * @param attr 属性，如 "width"
+     */
+    function getStyle(obj,attr) {
+        if(obj.currentStyle){ // IE
+            return obj.currentStyle[attr];
+        }else{ // w3c浏览器
+            return window.getComputedStyle(obj,null)[attr];
+        }
+    }
+    
+    
+</script>

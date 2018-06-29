@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <title>均速动画封装</title>
     <style>
-        #box,#box2 {
+        #box, #box2 {
             width: 100px;
             height: 100px;
             background-color: peru;
             position: absolute;
-        }
-        #box2{
-            top:200px;
+            left: 0;
+            top: 50px;
         }
     </style>
 </head>
@@ -19,39 +18,48 @@
 <button id="btn200">200</button>
 <button id="btn400">400</button>
 <div id="box"></div>
-<div id="box2"></div>
 </body>
 </html>
 <script>
     var btn200 = document.getElementById("btn200");
     var btn400 = document.getElementById("btn400");
     var box = document.getElementById("box");
-    var box2 = document.getElementById("box2");
 
     btn200.onclick = function () {
-        animate(box, 200);
-        animate(box2, 200);
+        animate(box, 200, "left");
     }
     btn400.onclick = function () {
-        animate(box, 400);
+        animate(box, 400, "top");
     }
 
     /**
-     * 匀速运动函数
-     * @param obj 运动的盒子
-     * @param target 相对盒子的offsetLeft目标位置
+     * @description 匀速运动
+     * @param obj 运动对象 box
+     * @param target 目标位置 400
+     * @param attr 运动属性 "left"
      */
-    function animate(obj, target) {
+    function animate(obj, target, attr) {
+        clearInterval(obj.timer);
         // 走到target位置，倒回去
-        var speed = obj.offsetLeft < target ? 5 : -5;
+        var speed = parseInt(getStyle(obj, attr)) < target ? 5 : -5;
         // 定时开始
         obj.timer = setInterval(function () {
-            var result = target - obj.offsetLeft; // 定时器停下来的变量，他们的差值不可能小于5
-            obj.style.left = obj.offsetLeft + speed + "px";
-            if (Math.abs(result) <= 5) { // 绝对值，差值小于5，则到位置
+            var current = parseInt(getStyle(obj, attr)); // 当前属性值
+            var result = target - current; // 定时器停下来的变量，他们的差值不可能小于5
+            obj.style[attr] = current + speed + "px";
+            if (Math.abs(result) <= 5) { // 绝对值，差值小于5，则固定到目标位置
                 clearInterval(obj.timer);
-                obj.style.left = target + "px"; // 盒子定位到目标位置
+                obj.style[attr] = target + "px"; // 盒子定位到目标位置
             }
         }, 30)
+    }
+
+    // 获取对象样式
+    function getStyle(obj, attr) {
+        if (obj.currentStyle) { // ie
+            return obj.currentStyle[attr]; // box.currentStyle["width"]
+        } else { // w3c浏览器
+            return window.getComputedStyle(obj, null)[attr];
+        }
     }
 </script>
