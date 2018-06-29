@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>缓动动画原理</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: palegreen;
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<button id="btn">开始</button>
+<div id="box"></div>
+</body>
+</html>
+
+<script>
+    var btn = document.getElementById("btn");
+    var box = document.getElementById("box");
+
+    var target = 400; //目标位置
+    var timer = null; // 定时器
+    btn.onclick = function () {
+        timer = setInterval(function () {
+            // 移动的距离 = 本身的距离+步长（变化）
+            var step = (target - box.offsetLeft) / 10;
+            step = step > 0 ? Math.ceil(step) : Math.floor(step); // 步长取整，确认能到达目标位置
+            box.style.left = box.offsetLeft + step + "px";
+            if(box.style.left == target){ // 达到目标位置，停止定时器
+                clearInterval(timer);
+            }
+        }, 30);
+    }
+</script>

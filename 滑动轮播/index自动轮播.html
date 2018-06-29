@@ -88,8 +88,6 @@
     var slider = document.getElementById("slider");
     var ul = slider.children[0].children[0];
     var ullis = ul.children;
-    var btnLeft = document.getElementById("btnLeft");
-    var btnRight = document.getElementById("btnRight");
 
     // 1、动态复制最后一张图
     ul.appendChild(ullis[0].cloneNode(true));
@@ -129,43 +127,39 @@
         obj.timer = setInterval(function () {
             leader = leader + (target - leader) / 10;//缓动动画公式
             obj.style.left = leader + "px";
-        }, 30);
+        }, 10);
     }
 
-    // 4、定时器自动播放
-    var autoTimer = null;
-    var key = 0; // 存放当前播放索引
-    var point = 0; // 存放原点索引
-    autoTimer = setInterval(autoPlay, 3000);
-
-    function autoPlay() {
-        // 图片动画
+    // 4、轮播图定时器
+    var timer = null;
+    timer = setInterval(autoplay, 3000);
+    var key = 0; // 控制播放张数
+    var point = 0; // 控制小圆点
+    function autoplay() {
+        // 播放张数
         key++;
-        if (key >= ullis.length) { // 判断是否播放到最后一张
-            // 最后一张，迅速倒回第2张
-            leader = 0;
-            key = 1;
+        if (key > ullis.length - 1) { // 判断是否播放完
+            leader = 0; // 迅速跳回
+            key = 1; // 下次播放第二张
         }
         animate(ul, -key * ullis[0].offsetWidth);
 
-        // 原点动画
+        // 小圆点
         point++;
-        if (point >= ollis.length) {
+        if (point > ollis.length - 1) {
             point = 0;
         }
-        for (var i = 0; i < ollis.length; i++) {
+        for (var i = 0; i < ollis.length; i++) { // 先清除所有的
             ollis[i].removeAttribute("class");
         }
-        ollis[point].setAttribute("class", "current");
+        ollis[point].setAttribute("class", "current") // 再保留现在的
     }
 
-    // 5、 鼠标上移，动画暂停和继续
+    // 5、鼠标经过事件
     slider.onmouseover = function () {
-        clearInterval(autoTimer);
+        clearInterval(timer);
     }
-
     slider.onmouseout = function () {
-        autoTimer = setInterval(autoPlay, 1000);
+        timer = setInterval(autoplay, 3000);
     }
-
 </script>

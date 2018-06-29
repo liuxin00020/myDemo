@@ -156,7 +156,7 @@ function showBox(obj,mouseX,mouseY,txt) {
  * @param obj 运动的盒子
  * @param target 相对盒子的offsetLeft目标位置
  */
-function animate(obj, target) {
+function animateUniform(obj, target) {
     clearInterval(obj.timer); // 先清除定时器
     // 走到target位置，判断应该+还是-
     var speed = obj.offsetLeft < target ? 5 : -5;
@@ -169,6 +169,24 @@ function animate(obj, target) {
             obj.style.left = target + "px"; // 盒子定位到目标位置
         }
     }, 30)
+}
+
+/**
+ * 缓动动画函数
+ * @param obj 动画对象
+ * @param target 目标位置
+ */
+function animateVariable(obj, target) {
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function () {
+        // 动画原理  移动距离 = 对象距离 + 步长
+        var step = (target - obj.offsetLeft) / 10; // 步长
+        step = step > 0 ? Math.ceil(step) : Math.floor(step); // 步长取整 确保对象到达目标位置
+        obj.style.left = obj.offsetLeft + step + "px";
+        if (obj.style.left == target) {
+            clearInterval(obj.timer);
+        }
+    }, 30);
 }
 
 /** 判断浏览器是否在IE9及以下
